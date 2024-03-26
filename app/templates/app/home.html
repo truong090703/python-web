@@ -1,5 +1,125 @@
-{% extends "app/base.html"%}
-<hr />
-{% load static %}
-<hr />
-{% block main-content %} aloha {% endblock main-content %}
+{% extends "app/base.html"%} {% load static %} {% block main-content %}
+<style>
+  .container-responsivegrid {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0)),
+      url('{% static "images/background.webp" %}');
+    height: 600px;
+    border-radius: 20px;
+  }
+  .responsivegrid {
+    padding-top: 10%;
+  }
+  .responsivegrid .title {
+    width: 50%;
+  }
+  a {
+    color: black;
+    text-decoration: none;
+  }
+  a:hover,
+  a:visited {
+    color: black;
+  }
+  .container-product .col-4 {
+    max-width: calc(33.33% - 10px);
+  }
+  .grooves {
+    gap: 10px;
+  }
+</style>
+<div class="container container-responsivegrid mt-4">
+  <div class="row no-gutters">
+    <div class="col-12 responsivegrid pl-5">
+      <div class="title">
+        <h1 class="font-weight-bolder text-white pb-2">
+          Sứ mệnh của Coco là đổi mới thế giới và làm nên sự khác biệt
+        </h1>
+        <p class="text-white pb-2">
+          Coco tạo ra các thương hiệu và nước giải khát được mọi người yêu thích
+          và khơi gợi cảm hứng về cả thể chất lẫn tinh thần, đồng thời phát
+          triển thương hiệu bền vững hướng đến một tương lai chung tốt đẹp hơn.
+        </p>
+        <button
+          type="button"
+          class="btn btn-light rounded-pill font-weight-bolder"
+        >
+          Thông tin công ty Coco
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container container-product pt-4 pb-4">
+  <div class="row no-gutters grooves d-flex">
+    {% for _ in '123456' %}
+    <div class="col-4" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)">
+      <div class="card">
+        <img
+          src="{% static 'images/coca.webp' %}"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <h5 class="card-title">Coca-Cola</h5>
+          <p class="price">20.000</p>
+          <a href="#" class="btn btn-outline-dark">Xem thêm</a>
+          <a href="#" class="btn btn-outline-dark" style="float: right"
+            >Thêm vào giỏ</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="container container-service">
+  <div class="row">
+    <div class="col-12 popular-service">
+      <div class="title-service row justify-content-center pt-4">
+        <h2 class="font-weight-bolder pb-4">Dịch vụ phổ biến</h2>
+      </div>
+    </div>
+    <div class="body-service row col-12">
+      <div class="col-6">
+        <div class="card">
+          <img
+            src="{% static 'images/1.webp' %}"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body">
+            <h3 class>Để từng khoảnh khắc trong cuộc sống tràn đầy ý nghĩa</h3>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+            <a href="#" class="">
+              <h3 class="">TÌM HIỂU CÁC NHÃN HÀNG CỦA CÔNG TY Coco</h3>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card">
+          <img
+            src="{% static 'images/1.webp' %}"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body">
+            <h3 class>Để từng khoảnh khắc trong cuộc sống tràn đầy ý nghĩa</h3>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+            <a href="#" class="">
+              <h3 class="">TÌM HIỂU CÁC NHÃN HÀNG CỦA CÔNG TY Coco</h3>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main-content %}
