@@ -51,17 +51,13 @@
 </div>
 <div class="container container-product pt-4 pb-4">
   <div class="row no-gutters grooves d-flex">
-    {% for _ in '123456' %}
+    {% for product in products %}
     <div class="col-4" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)">
       <div class="card">
-        <img
-          src="{% static 'images/coca.webp' %}"
-          class="card-img-top"
-          alt="..."
-        />
+        <img class="card-img-top" src="{{product.ImageURL}}" />
         <div class="card-body">
-          <h5 class="card-title">Coca-Cola</h5>
-          <p class="price">20.000</p>
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="price">${{product.price | floatformat:2}}</p>
           <a href="#" class="btn btn-outline-dark">Xem thêm</a>
           <a href="#" class="btn btn-outline-dark" style="float: right"
             >Thêm vào giỏ</a
@@ -88,13 +84,13 @@
             alt="..."
           />
           <div class="card-body">
-            <h3 class>Để từng khoảnh khắc trong cuộc sống tràn đầy ý nghĩa</h3>
+            <h4 class>Để từng khoảnh khắc trong cuộc sống tràn đầy ý nghĩa</h4>
             <p class="card-text">
               Some quick example text to build on the card title and make up the
               bulk of the card's content.
             </p>
             <a href="#" class="">
-              <h3 class="">TÌM HIỂU CÁC NHÃN HÀNG CỦA CÔNG TY Coco</h3>
+              <h3 class="">Tìm hiểu các nhãn hàng của công ty Coco</h3>
             </a>
           </div>
         </div>
@@ -107,13 +103,13 @@
             alt="..."
           />
           <div class="card-body">
-            <h3 class>Để từng khoảnh khắc trong cuộc sống tràn đầy ý nghĩa</h3>
+            <h4 class>Để từng khoảnh khắc trong cuộc sống tràn đầy ý nghĩa</h4>
             <p class="card-text">
               Some quick example text to build on the card title and make up the
               bulk of the card's content.
             </p>
             <a href="#" class="">
-              <h3 class="">TÌM HIỂU CÁC NHÃN HÀNG CỦA CÔNG TY Coco</h3>
+              <h3 class="">Tìm hiểu các nhãn hàng của công ty Coco</h3>
             </a>
           </div>
         </div>
