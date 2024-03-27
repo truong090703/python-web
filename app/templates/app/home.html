@@ -59,7 +59,11 @@
           <h5 class="card-title">{{product.name}}</h5>
           <p class="price">${{product.price | floatformat:2}}</p>
           <a href="#" class="btn btn-outline-dark">Xem thêm</a>
-          <a href="#" class="btn btn-outline-dark" style="float: right"
+          <a
+            data-product="{{product.id}}"
+            data-action="add"
+            class="btn btn-outline-dark update-cart"
+            style="float: right"
             >Thêm vào giỏ</a
           >
         </div>

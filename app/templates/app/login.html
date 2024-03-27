@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      .login-background {
+        background-color: #f8f9fa;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .login-container {
+        max-width: 400px;
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .text-login {
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .login-input {
+        margin-bottom: 15px;
+      }
+      .custom-input-password {
+        position: relative;
+      }
+      .custom-input-password input {
+        padding-right: 40px;
+      }
+      .custom-input-password i {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+      .forgot-password {
+        font-size: 14px;
+        color: #007bff;
+      }
+      .btn-login {
+        width: 100%;
+      }
+      .text-other-login {
+        font-size: 14px;
+      }
+      .social-login i {
+        font-size: 24px;
+        margin-right: 10px;
+      }
+      .no-accountp-1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      .Register {
+        margin-top: 10px;
+      }
+      .Register a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      .Register a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-background">
+      <div class="login-container">
+        <div class="login-content row">
+          <div class="col-12 text-center text-login">Login</div>
+          <div class="col-12 form-group login-input">
+            <label>Username:</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter your username"
+            />
+          </div>
+          <div class="col-12 form-group login-input">
+            <label>Password</label>
+            <div class="custom-input-password">
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Enter your password"
+              />
+              <span>
+                <i class="far fa-eye-slash"></i>
+              </span>
+            </div>
+          </div>
+          <div class="col-12 pt-3">
+            <button class="btn btn-outline-primary btn-login">Login</button>
+          </div>
+          <div class="col-12">
+            <span class="forgot-password">Forgot your password?</span>
+          </div>
+          <div class="col-12 text-center mt-3">
+            <span class="text-other-login">Or Login with: </span>
+          </div>
+          <div class="col-12 social-login">
+            <i class="fab fa-google-plus-g google"></i>
+            <i class="fab fa-facebook-f facebook"></i>
+          </div>
+          <div class="col-12 text-center mt-3 Register">
+            <span class="no-accountp-1">
+              No account?
+              <div class="Register p-1">
+                <a href="/register">Register</a>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+    integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+    crossorigin="anonymous"
+  ></script>
+</html>
