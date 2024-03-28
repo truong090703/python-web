@@ -50,8 +50,11 @@
   </div>
 </div>
 <div class="container container-product pt-4 pb-4">
+  <div class="title-product row justify-content-center pt-4">
+    <h2 class="font-weight-bolder pb-4">Sản phẩm hàng đầu</h2>
+  </div>
   <div class="row no-gutters grooves d-flex">
-    {% for product in products %}
+    {% for product in products %} {% if forloop.counter <= 6 %}
     <div class="col-4" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)">
       <div class="card">
         <img class="card-img-top" src="{{product.ImageURL}}" />
@@ -69,7 +72,7 @@
         </div>
       </div>
     </div>
-    {% endfor %}
+    {% endif %} {% endfor %}
   </div>
 </div>
 <div class="container container-service">

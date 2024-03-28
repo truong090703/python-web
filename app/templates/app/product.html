@@ -1,0 +1,43 @@
+{% extends "app/base.html"%} {% load static %} {% block product-content %}
+<style>
+  .container-products .col-4 {
+    max-width: calc(16.66% - 10px);
+  }
+  .product-card {
+    font-size: 0.8rem;
+  }
+  .card-title {
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  .price,
+  .update-cart {
+    font-size: 0.8rem;
+  }
+</style>
+<div class="container container-products">
+  <div class="content-product row">
+    <div class="col-12 title-product p-2"><h3>Danh mục sản phẩm</h3></div>
+    <div class="row no-gutters grooves d-flex">
+      {% for product in products %} <br />
+      <div class="col-2">
+        <div class="card product-card m-1">
+          <img class="card-img-top" src="{{product.ImageURL}}" />
+          <div class="card-body">
+            <h5 class="card-title">{{product.name |truncatechars:19}}</h5>
+            <p class="price">${{product.price | floatformat:2}}</p>
+            <a
+              data-product="{{product.id}}"
+              data-action="add"
+              class="btn btn-outline-dark update-cart"
+              style="float: right"
+              >Thêm vào giỏ</a
+            >
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock product-content %}

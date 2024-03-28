@@ -67,62 +67,67 @@
         justify-content: center;
         margin-top: 20px;
       }
-      .Register {
-        margin-top: 10px;
-      }
+
       .Register a {
-        color: #007bff;
+        color: black;
         text-decoration: none;
       }
       .Register a:hover {
         text-decoration: underline;
       }
+      .css-form {
+        width: 100%;
+      }
+      .css-form input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+      }
     </style>
   </head>
   <body>
     <div class="login-background">
-      <div class="login-container">
+      <div class="login-container container">
         <div class="login-content row">
-          <div class="col-12 text-center text-login">Login</div>
-          <div class="col-12 form-group login-input">
-            <label>Username:</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter your username"
-            />
-          </div>
-          <div class="col-12 form-group login-input">
-            <label>Password</label>
-            <div class="custom-input-password">
+          <div class="col-12 text-center text-login">Đăng nhập</div>
+          <form method="POST" action="" class="css-form">
+            {% csrf_token %}
+            <div class="col-12 form-group login-input">
+              <label>Tên tài khoản:</label>
+              <input
+                type="text"
+                name="username"
+                class="form-control"
+                placeholder="Enter your username"
+              />
+            </div>
+
+            <div class="col-12 form-group login-input">
+              <label>Mật khẩu:</label>
               <input
                 type="password"
+                name="password"
                 class="form-control"
                 placeholder="Enter your password"
               />
-              <span>
-                <i class="far fa-eye-slash"></i>
-              </span>
             </div>
-          </div>
-          <div class="col-12 pt-3">
-            <button class="btn btn-outline-primary btn-login">Login</button>
-          </div>
-          <div class="col-12">
-            <span class="forgot-password">Forgot your password?</span>
-          </div>
-          <div class="col-12 text-center mt-3">
-            <span class="text-other-login">Or Login with: </span>
-          </div>
-          <div class="col-12 social-login">
-            <i class="fab fa-google-plus-g google"></i>
-            <i class="fab fa-facebook-f facebook"></i>
-          </div>
-          <div class="col-12 text-center mt-3 Register">
+
+            <div class="col-12 pt-3">
+              <button class="btn btn-outline-secondary btn-login" type="submit">
+                Đăng nhập
+              </button>
+              {% for message in messages %}
+              <p id="message" class="text-center pt-2">{{ message }}</p>
+              {% endfor %}
+            </div>
+          </form>
+
+          <div class="col-12 text-center mt-1 Register">
             <span class="no-accountp-1">
-              No account?
-              <div class="Register p-1">
-                <a href="/register">Register</a>
+              Bạn chưa có tài khoản?
+              <div class="Register pl-1">
+                <a href="{% url 'register' %}">Đăng Ký</a>
               </div>
             </span>
           </div>
@@ -130,6 +135,7 @@
       </div>
     </div>
   </body>
+
   <script
     src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
