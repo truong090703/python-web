@@ -1,7 +1,8 @@
 {% extends "app/base.html"%} {% load static %} {% block product-content %}
 <style>
-  .container-products .col-4 {
-    max-width: calc(16.66% - 10px);
+  .container-products .col-2 {
+    min-width: 180px;
+    min-height: 180px;
   }
   .product-card {
     font-size: 0.8rem;
@@ -12,27 +13,70 @@
   }
   .price,
   .update-cart {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+  }
+  p {
+    margin: 0;
+  }
+  .product-card .card-img-top {
+    max-height: 170px;
+    object-fit: contain;
   }
 </style>
+
 <div class="container container-products">
   <div class="content-product row">
-    <div class="col-12 title-product p-2"><h3>Danh mục sản phẩm</h3></div>
-    <div class="row no-gutters grooves d-flex">
-      {% for product in products %} <br />
-      <div class="col-2">
+    <div class="col-12 title-product p-2">
+      <h3>Danh mục sản phẩm</h3>
+      <div
+        class="btn btn-outline-secondary rounded-pill active"
+        data-brand="All"
+      >
+        Tất cả
+      </div>
+      <div class="btn btn-outline-secondary rounded-pill" data-brand="Coca">
+        Coca-Cola
+      </div>
+      <div class="btn btn-outline-secondary rounded-pill" data-brand="Sprite">
+        Sprite
+      </div>
+      <div class="btn btn-outline-secondary rounded-pill" data-brand="Fanta">
+        Fanta
+      </div>
+      <div class="btn btn-outline-secondary rounded-pill" data-brand="Aquarius">
+        Aquarius
+      </div>
+      <div class="btn btn-outline-secondary rounded-pill" data-brand="Dasani">
+        Dasani
+      </div>
+      <div class="btn btn-outline-secondary rounded-pill" data-brand="Nutri">
+        Nutri Boost
+      </div>
+    </div>
+    <div class="row no-gutters grooves d-flex" id="product-list">
+      {% for product in products %}
+      <div
+        class="col-2 product-card"
+        data-brand="{{ product.brand }}"
+        data-name="{{ product.name }}"
+        data-price="{{ product.price }}"
+        data-image="{{ product.ImageURL }}"
+        data-id="{{ product.id }}"
+      >
         <div class="card product-card m-1">
-          <img class="card-img-top" src="{{product.ImageURL}}" />
+          <img class="card-img-top" src="{{ product.ImageURL }}" />
           <div class="card-body">
-            <h5 class="card-title">{{product.name |truncatechars:19}}</h5>
-            <p class="price">${{product.price | floatformat:2}}</p>
-            <a
-              data-product="{{product.id}}"
-              data-action="add"
-              class="btn btn-outline-dark update-cart"
-              style="float: right"
-              >Thêm vào giỏ</a
-            >
+            <h5 class="card-title">{{ product.name | truncatechars:19 }}</h5>
+            <div class="align-items-center d-flex justify-content-between">
+              <p class="price">${{ product.price | floatformat:2 }}</p>
+              <a
+                data-product="{{ product.id }}"
+                data-action="add"
+                class="btn btn-outline-dark update-cart"
+                style=""
+                >Thêm vào giỏ</a
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -40,4 +84,71 @@
     </div>
   </div>
 </div>
+
+<script>
+  function truncateChars(str, maxChars) {
+    return str.length > maxChars ? str.slice(0, maxChars) + "..." : str;
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const productButtons = document.querySelectorAll(".btn-outline-secondary");
+    const productList = document.getElementById("product-list");
+    const products = Array.from(productList.querySelectorAll(".product-card"));
+
+    // Mặc định hiển thị tất cả sản phẩm
+    const initialProductList = productList.innerHTML;
+
+    // Xử lý sự kiện khi click vào nút
+    productButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        // Loại bỏ lớp active từ tất cả các nút
+        productButtons.forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        // Thêm lớp active cho nút được click
+        this.classList.add("active");
+        const brand = this.getAttribute("data-brand");
+        productList.innerHTML = ""; // Clear previous products
+        if (brand === "All") {
+          // Nếu click vào nút "All", render tất cả sản phẩm ban đầu
+          productList.innerHTML = initialProductList;
+        } else {
+          // Nếu không, lọc và render sản phẩm theo brand tương ứng
+          products.forEach((product) => {
+            if (!brand || product.dataset.brand === brand) {
+              const productItem = document.createElement("div");
+              productItem.classList.add("col-2", "product-card");
+              productItem.dataset.brand = product.dataset.brand;
+              productItem.dataset.name = product.dataset.name;
+              productItem.dataset.price = product.dataset.price;
+              productItem.dataset.image = product.dataset.image;
+              productItem.dataset.id = product.dataset.id;
+              productItem.innerHTML = `
+                <div class="card product-card m-1">
+                  <img class="card-img-top" src="${product.dataset.image}" />
+                  <div class="card-body">
+                    <h5 class="card-title">${truncateChars(
+                      product.dataset.name,
+                      17
+                    )}</h5>
+                    <div class="align-items-center d-flex justify-content-between">
+                      <p class="price">$${parseFloat(
+                        product.dataset.price
+                      ).toFixed(2)}</p>
+                      <a data-product="${
+                        product.dataset.id
+                      }" data-action="add" class="btn btn-outline-dark update-cart">Thêm vào giỏ</a>
+                    </div>
+                  </div>
+                </div>
+              `;
+              productList.appendChild(productItem);
+            }
+          });
+        }
+      });
+    });
+  });
+</script>
+
 {% endblock product-content %}

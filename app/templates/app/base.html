@@ -19,6 +19,7 @@
     <style>
       .container-fluid {
         background-color: #f8f9fa;
+        padding: 0;
       }
       h1,
 h2,
@@ -121,7 +122,6 @@ h6 {
     font-size: 20px;
     cursor: pointer;
   }
-
 
     </style>
   </head>
@@ -250,12 +250,13 @@ h6 {
     {% block cart_content %} {% endblock cart_content %}
     {% block content_checkout %}{% endblock content_checkout %}
     {% block product-content %} {% endblock product-content %}
-    <footer class="footer fixed-bottom bg-light">
-      <div class="container-fluid text-center">
-        <span class="text-muted">Place sticky footer content here.</span>
-      </div>
-    </footer>
+
+    <div class="footer container-fluid fixed-bottom text-center">
+      <span class="text-muted">hihi</span>
+    </div>
   </body>
+
+
 
   <script
     src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
