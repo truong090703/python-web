@@ -5,6 +5,7 @@ from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib import messages
+from django.db.models import Q
 # Create your views here.
 
 def register(request):
@@ -93,12 +94,55 @@ def updateItem(request):
     if orderItem.quantity <= 0:
         orderItem.delete()
     return JsonResponse('added', safe=False)
+def deleteItem(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        productId = data['productId']
+        customer = request.user
+        try:
+            order = Order.objects.get(customer=customer, complete=False)
+            orderItem = OrderItem.objects.get(order=order, product_id=productId)
+            orderItem.delete()
+            return JsonResponse({'message': 'Item deleted successfully'}, status=200)
+        except Order.DoesNotExist:
+            return JsonResponse({'error': 'Order does not exist'}, status=404)
+        except OrderItem.DoesNotExist:
+            return JsonResponse({'error': 'Item does not exist in the cart'}, status=404)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
 def product(request):
+    query = request.GET.get('searched')
     products = Product.objects.all()
+
+    if query:
+        products = products.filter(Q(name__icontains=query))
+
     cartItems = 0
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         cartItems = order.get_cart_items
+
     context = {'products': products, 'cartItem': cartItems}
     return render(request, 'app/product.html', context)
+def profile(request):
+    cartItems = 0
+    if request.user.is_authenticated:
+        user = request.user
+        username = user.username
+        email = user.email
+        first_name = user.first_name
+        last_name = user.last_name
+        order = Order.objects.get_or_create(customer=user, complete=False)[0]  # Lấy hoặc tạo đơn hàng cho người dùng
+        cartItems = order.get_cart_items  # Lấy số lượng sản phẩm trong giỏ hàng
+        context = {
+            'username': username,
+            'email': email,
+            'first_name': first_name,
+            'last_name': last_name,
+            'cartItem': cartItems  # Truyền cartItems vào context
+        }
+        return render(request, 'app/profile.html', context)
+    else:
+        return redirect('login')
+

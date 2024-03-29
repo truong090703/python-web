@@ -27,33 +27,51 @@
 <div class="container container-products">
   <div class="content-product row">
     <div class="col-12 title-product p-2">
-      <h3>Danh mục sản phẩm</h3>
+      <h3 class="py-2">Danh mục sản phẩm</h3>
       <div
-        class="btn btn-outline-secondary rounded-pill active"
+        class="btn btn-outline-secondary rounded-pill active mr-1"
         data-brand="All"
       >
         Tất cả
       </div>
-      <div class="btn btn-outline-secondary rounded-pill" data-brand="Coca">
+      <div
+        class="btn btn-outline-secondary rounded-pill mr-1"
+        data-brand="Coca"
+      >
         Coca-Cola
       </div>
-      <div class="btn btn-outline-secondary rounded-pill" data-brand="Sprite">
+      <div
+        class="btn btn-outline-secondary rounded-pill mr-1"
+        data-brand="Sprite"
+      >
         Sprite
       </div>
-      <div class="btn btn-outline-secondary rounded-pill" data-brand="Fanta">
+      <div
+        class="btn btn-outline-secondary rounded-pill mr-1"
+        data-brand="Fanta"
+      >
         Fanta
       </div>
-      <div class="btn btn-outline-secondary rounded-pill" data-brand="Aquarius">
+      <div
+        class="btn btn-outline-secondary rounded-pill mr-1"
+        data-brand="Aquarius"
+      >
         Aquarius
       </div>
-      <div class="btn btn-outline-secondary rounded-pill" data-brand="Dasani">
+      <div
+        class="btn btn-outline-secondary rounded-pill mr-1"
+        data-brand="Dasani"
+      >
         Dasani
       </div>
-      <div class="btn btn-outline-secondary rounded-pill" data-brand="Nutri">
+      <div
+        class="btn btn-outline-secondary rounded-pill mr-1"
+        data-brand="Nutri"
+      >
         Nutri Boost
       </div>
     </div>
-    <div class="row no-gutters grooves d-flex" id="product-list">
+    <div class="row no-gutters grooves d-flex pt-2" id="product-list">
       {% for product in products %}
       <div
         class="col-2 product-card"
@@ -66,7 +84,7 @@
         <div class="card product-card m-1">
           <img class="card-img-top" src="{{ product.ImageURL }}" />
           <div class="card-body">
-            <h5 class="card-title">{{ product.name | truncatechars:19 }}</h5>
+            <h5 class="card-title">{{ product.name | truncatechars:18 }}</h5>
             <div class="align-items-center d-flex justify-content-between">
               <p class="price">${{ product.price | floatformat:2 }}</p>
               <a

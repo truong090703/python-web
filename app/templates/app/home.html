@@ -26,6 +26,30 @@
   .grooves {
     gap: 10px;
   }
+  .img-component {
+    width: 270px;
+    height: 270px;
+  }
+  .img-brand {
+    width: 180px;
+    height: 180px;
+  }
+  .btn-brand {
+    width: 240px;
+    height: 240px;
+    transition: box-shadow 0.5s ease-in-out;
+    background-color: #f8f9fa;
+    margin: 20px;
+    margin-top: 5px;
+    border-radius: 10%;
+  }
+
+  .btn-brand:hover {
+    width: 250px;
+    height: 250px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    transform: scale(1.1);
+  }
 </style>
 <div class="container container-responsivegrid mt-4">
   <div class="row no-gutters">
@@ -51,7 +75,7 @@
 </div>
 <div class="container container-product pt-4 pb-4">
   <div class="title-product row justify-content-center pt-4">
-    <h2 class="font-weight-bolder pb-4">Sản phẩm hàng đầu</h2>
+    <h2 class="font-weight-bolder pb-4">Sản phẩm nổi bật</h2>
   </div>
   <div class="row no-gutters grooves d-flex">
     {% for product in products %} {% if forloop.counter <= 6 %}
@@ -88,7 +112,7 @@
       <div class="col-6">
         <div class="card">
           <img
-            src="{% static 'images/1.webp' %}"
+            src="{% static 'images/service.webp' %}"
             class="card-img-top"
             alt="..."
           />
@@ -99,7 +123,7 @@
               bulk of the card's content.
             </p>
             <a href="#" class="">
-              <h3 class="">Tìm hiểu các nhãn hàng của công ty Coco</h3>
+              <h3 class="">Tìm hiểu các nhãn hàng của Coco</h3>
             </a>
           </div>
         </div>
@@ -107,22 +131,66 @@
       <div class="col-6">
         <div class="card">
           <img
-            src="{% static 'images/1.webp' %}"
+            src="{% static 'images/cc.webp' %}"
             class="card-img-top"
             alt="..."
           />
           <div class="card-body">
-            <h4 class>Để từng khoảnh khắc trong cuộc sống tràn đầy ý nghĩa</h4>
+            <h4 class>
+              Vì Một Thế Giới Không Rác Thải, hãy hành động từng bước cùng chúng
+              tôi!
+            </h4>
             <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+              Chúng tôi góp phần giải quyết các vấn đề về bao bì thông qua việc
+              đầu tư vào môi trường và quy trình đóng gói
             </p>
             <a href="#" class="">
-              <h3 class="">Tìm hiểu các nhãn hàng của công ty Coco</h3>
+              <h3 class="">Sáng kiến phát triển bao bì bền vững</h3>
             </a>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="container container-discover pt-5 text-center">
+  <div class="title-discover">
+    <h2 class="font-weight-bolder pb-4">Dịch vụ phổ biến</h2>
+  </div>
+  <div
+    class="row"
+    style="width: 75%; margin: 0 auto; display: flex; justify-content: center"
+  >
+    <div class="img-component col-4">
+      <button class="btn btn-brand">
+        <img class="img-brand" src="{% static 'images/10.webp' %}" />
+      </button>
+    </div>
+    <div class="img-component col-4">
+      <button class="btn btn-brand">
+        <img class="img-brand" src="{% static 'images/2.webp' %}" />
+      </button>
+    </div>
+    <div class="img-component col-4">
+      <button class="btn btn-brand">
+        <img class="img-brand" src="{% static 'images/3.webp' %}" />
+      </button>
+    </div>
+    <div class="img-component col-4">
+      <button class="btn btn-brand">
+        <img class="img-brand" src="{% static 'images/4.webp' %}" />
+      </button>
+    </div>
+    <div class="img-component col-4">
+      <button class="btn btn-brand">
+        <img class="img-brand" src="{% static 'images/5.webp' %}" />
+      </button>
+    </div>
+    <div class="img-component col-4">
+      <button class="btn btn-brand">
+        <img class="img-brand" src="{% static 'images/6.webp' %}" />
+      </button>
     </div>
   </div>
 </div>
