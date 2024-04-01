@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 # Create your models here.
 
+
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
@@ -15,6 +16,7 @@ class Product(models.Model):
     price = models.FloatField()
     image = models.ImageField(null=True, blank=True)
     brand = models.CharField(max_length=50, null=True)
+    detail = models.CharField(max_length=500, null=True)
 
     def __str__(self):
         return self.name
@@ -25,6 +27,7 @@ class Product(models.Model):
         except:
             url = ''
         return url
+    
     
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True, null=True)
@@ -71,4 +74,5 @@ class Shipping(models.Model):
     def __str__(self):
         return self.address
 
-
+class Files(models.Model):
+    file = models.FileField(upload_to='file')   

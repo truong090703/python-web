@@ -125,7 +125,16 @@
               <label for="{{ form.username.id_for_label }}">Email:</label>
               {{ form.email }}
             </div>
-
+            <div class="row name" style="max-width: 390px; padding-left: 25px">
+              <div class="col-6 form-group register-input">
+                <label for="{{ form.username.id_for_label }}">Tên:</label>
+                {{ form.first_name }}
+              </div>
+              <div class="col-6 form-group register-input">
+                <label for="{{ form.username.id_for_label }}">Họ:</label>
+                {{ form.last_name }}
+              </div>
+            </div>
             <div class="col-12 form-group register-input">
               <label for="{{ form.password.id_for_label }}">Mật khẩu:</label>
               {{ form.password1 }}

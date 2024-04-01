@@ -17,9 +17,7 @@
     <link rel="stylesheet" href="" />
 
     <style>
-    body {
-      padding-bottom: 50px;
-    }
+
       .container-fluid {
         background-color: #f8f9fa;
         padding: 0;
@@ -201,7 +199,7 @@
                   <a class="dropdown-item" href="#">Lazada</a>
               </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0 justify-content-center" role="search" method = "Get" action = "{% url 'product'%}">
+            <form class="form-inline my-lg-0 justify-content-center" role="search" method = "Get" action = "{% url 'product'%}">
             {% csrf_token %}
               <input
                 class="form-control mr-sm-2"
@@ -267,7 +265,8 @@
     {% block content_checkout %}{% endblock content_checkout %}
     {% block product-content %} {% endblock product-content %}
     {% block profile-content %} {% endblock profile-content %}
-    
+    {% block detail-content %} {% endblock detail-content %}
+
   </body>
 
 

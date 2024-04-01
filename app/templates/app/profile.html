@@ -1,10 +1,98 @@
 {% extends "app/base.html"%} {% load static %} {% block profile-content %}
+<br />
+
 <style>
-  footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+  .container-profile {
+    background-color: #f8f9fa;
+  }
+  .title-profile {
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+  }
+  .content-profile {
+    border-right: 0.5px solid rgba(0, 0, 0, 0.1);
+  }
+  .form-control {
+    width: 70%;
+  }
+  .css-form {
     width: 100%;
   }
+  label {
+    width: 20%;
+  }
+  input[type="file"] {
+    display: none;
+  }
+
+  .custom-file-upload label {
+    background-color: #f2f2f2;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 30%;
+  }
+  .img-profile {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+  }
 </style>
-aloiha {% endblock profile-content %}
+<div class="container container-profile rounded mt-4">
+  <div class="row no-gutters">
+    <div class="col-12 title-profile pt-3">
+      <h4 class="">Hồ Sơ Của Tôi</h4>
+      <p class="">Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+    </div>
+    <form
+      enctype="multipart/form-data"
+      method="POST"
+      action=""
+      class="css-form d-flex"
+    >
+      <div class="col-8 content-profile mt-3">
+        <div class="content-cpmponent">
+          {% csrf_token %}{% if request.user.is_authenticated %}
+          <div class="col-12 form-group">
+            <label>Tên đăng nhập:</label>
+            {{request.user}}
+          </div>
+          <div class="col-12 form-group d-flex">
+            <label for="{{ form.username.id_for_label }}">Tên:</label>
+            {{ request.user.first_name }} {{ request.user.last_name }}
+          </div>
+          <div class="col-12 form-group d-flex">
+            <label>Email:</label>
+            {{request.user.email}}
+          </div>
+
+          <div class="col-12 form-group d-flex gender">
+            <label>Ngày tham gia:</label>
+            {{request.user.date_joined}}
+          </div>
+
+          <div class="save-profile text-center pb-4">
+            <button type="submit" class="btn btn-secondary">Lưu</button>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-4 mt-3 text-center">
+        {% if avatar_url %}
+        <img class="img-profile" src="{{ MEDIA_URL }}{{ avatar_url }}" />
+        {% endif %}
+        <div class="custom-file-upload pt-3">
+          <input
+            type="file"
+            name="files"
+            id="name"
+            required
+            value="{{ MEDIA_URL }}images/files/"
+          />
+          <label for="name">Chọn ảnh</label>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock profile-content %}

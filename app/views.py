@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 import json
 from .models import *
@@ -41,7 +41,6 @@ def home(request):
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
     else:
-        # Không đăng nhập, đặt order là None hoặc giá trị mặc định
         order = None
         items = []
         cartItems = 0
@@ -94,22 +93,16 @@ def updateItem(request):
     if orderItem.quantity <= 0:
         orderItem.delete()
     return JsonResponse('added', safe=False)
-def deleteItem(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        productId = data['productId']
+def remove_from_cart(request, product_id):
+    if request.user.is_authenticated:
         customer = request.user
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
         try:
-            order = Order.objects.get(customer=customer, complete=False)
-            orderItem = OrderItem.objects.get(order=order, product_id=productId)
-            orderItem.delete()
-            return JsonResponse({'message': 'Item deleted successfully'}, status=200)
-        except Order.DoesNotExist:
-            return JsonResponse({'error': 'Order does not exist'}, status=404)
+            item = OrderItem.objects.get(order=order, product__id=product_id)
+            item.delete()
         except OrderItem.DoesNotExist:
-            return JsonResponse({'error': 'Item does not exist in the cart'}, status=404)
-    else:
-        return JsonResponse({'error': 'Invalid request method'}, status=400)
+            pass  # Bỏ qua nếu không tìm thấy item
+    return redirect('cart')
 def product(request):
     query = request.GET.get('searched')
     products = Product.objects.all()
@@ -125,24 +118,43 @@ def product(request):
 
     context = {'products': products, 'cartItem': cartItems}
     return render(request, 'app/product.html', context)
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    return render(request, 'product_detail.html', {'product': product})
 def profile(request):
     cartItems = 0
+    date_joined = None
+
     if request.user.is_authenticated:
         user = request.user
         username = user.username
         email = user.email
         first_name = user.first_name
         last_name = user.last_name
-        order = Order.objects.get_or_create(customer=user, complete=False)[0]  # Lấy hoặc tạo đơn hàng cho người dùng
-        cartItems = order.get_cart_items  # Lấy số lượng sản phẩm trong giỏ hàng
+        order = Order.objects.get_or_create(customer=user, complete=False)[0] 
+        cartItems = order.get_cart_items 
+        
+        date_joined = user.date_joined
+
+        if request.method == 'POST':
+            files = request.FILES.getlist('files')
+            for file in files:
+                new_file = Files(file=file)
+                new_file.save()
+            # Lấy đường dẫn của ảnh mới tải lên và cập nhật lại biến avatar_url
+            avatar_url = str(new_file.file.url) if new_file else None
+        else:
+            avatar_url = None
+
         context = {
             'username': username,
             'email': email,
             'first_name': first_name,
             'last_name': last_name,
-            'cartItem': cartItems  # Truyền cartItems vào context
+            'date_joined': date_joined, 
+            'cartItem': cartItems,
+            'avatar_url': avatar_url  # Cập nhật lại biến avatar_url
         }
         return render(request, 'app/profile.html', context)
     else:
         return redirect('login')
-

@@ -69,6 +69,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'webbanhang.wsgi.application'
 
 
@@ -130,4 +131,5 @@ STATICFILES_DIR = [
 MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'app/static/images')
+
 

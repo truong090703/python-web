@@ -69,80 +69,16 @@
           </div>
         </div>
         <div style="flex: 1">
-          <button
-            type="button"
-            class="btn btn-secondary btn-delete"
-            data-product="{{item.product.id}}"
-            data-action="delete"
-          >
-            Xoá
-          </button>
+          <a
+            href="{% url 'remove_from_cart' item.product.id %}"
+            src="{%static 'images/delete.png'%}"
+            ><i class="fas fa-trash"></i
+          ></a>
         </div>
       </div>
       {% endfor %}
     </div>
   </div>
 </div>
-
-<script>
-  // Add a click event listener to the delete buttons
-  document.querySelectorAll(".btn-delete").forEach((button) => {
-    button.addEventListener("click", () => {
-      const productId = button.dataset.product;
-      const action = button.dataset.action;
-      deleteItem(productId, action);
-    });
-  });
-
-  function deleteItem(productId, action) {
-    const url = '{% url "delete_item" %}';
-    const csrftoken = getCookie("csrftoken");
-    const data = { productId: productId, action: action };
-
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrftoken,
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data.message);
-        // Remove the deleted item row from the cart UI
-        const deletedRow = document.querySelector(
-          `.cart-row[data-product="${productId}"]`
-        );
-        deletedRow.remove();
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-
-  // Function to get CSRF token from cookies
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) === name + "=") {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
-</script>
 
 {% endblock cart_content %}
