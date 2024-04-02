@@ -93,12 +93,54 @@ def updateItem(request):
     if orderItem.quantity <= 0:
         orderItem.delete()
     return JsonResponse('added', safe=False)
-def remove_from_cart(request, product_id):
+def updateItemDetail(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        productId = request.POST.get('productId')
+        action = request.POST.get('action')
+
+        if productId and action:
+            try:
+                product = Product.objects.get(id=productId)
+                order, created = Order.objects.get_or_create(customer=request.user.customer, complete=False)
+
+                orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+
+                if action == 'additem':
+                    orderItem.quantity += 1
+                elif action == 'removeitem':
+                    orderItem.quantity -= 1
+
+                orderItem.save()
+
+                if orderItem.quantity <= 0:
+                    orderItem.delete()
+
+                items_in_cart = OrderItem.objects.filter(order=order)
+                cart_items = []
+                for item in items_in_cart:
+                    cart_items.append({
+                        'productId': item.product.id,
+                        'productName': item.product.name,
+                        'quantity': item.quantity
+                    })
+
+                response = {
+                    'cart_items': cart_items,
+                    'total_quantity': order.get_cart_total_quantity(),
+                }
+
+                return JsonResponse(response)
+
+            except Product.DoesNotExist:
+                return JsonResponse({'error': 'Product does not exist'}, status=400)
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+def remove_from_cart(request, cart_product_id):
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         try:
-            item = OrderItem.objects.get(order=order, product__id=product_id)
+            item = OrderItem.objects.get(order=order, product__id=cart_product_id)
             item.delete()
         except OrderItem.DoesNotExist:
             pass  # Bỏ qua nếu không tìm thấy item
@@ -118,9 +160,33 @@ def product(request):
 
     context = {'products': products, 'cartItem': cartItems}
     return render(request, 'app/product.html', context)
-def product_detail(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-    return render(request, 'product_detail.html', {'product': product})
+def productDetail(request, product_id=None):
+    if product_id:
+        product = get_object_or_404(Product, id=product_id)
+        cartItems = 0
+        if request.user.is_authenticated:
+            customer = request.user
+            order, created = Order.objects.get_or_create(customer=customer, complete=False)
+            cartItems = order.get_cart_items
+
+        context = {'product': product, 'cartItem': cartItems}
+        return render(request, 'app/product_detail.html', context)
+    else:
+        query = request.GET.get('searched')
+        products = Product.objects.all()
+
+        if query:
+            products = products.filter(Q(name__icontains=query))
+
+        cartItems = 0
+        if request.user.is_authenticated:
+            customer = request.user
+            order, created = Order.objects.get_or_create(customer=customer, complete=False)
+            cartItems = order.get_cart_items
+
+        context = {'products': products, 'cartItem': cartItems}
+        return render(request, 'app/product_detail.html', context)
+
 def profile(request):
     cartItems = 0
     date_joined = None

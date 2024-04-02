@@ -17,6 +17,7 @@ class Product(models.Model):
     image = models.ImageField(null=True, blank=True)
     brand = models.CharField(max_length=50, null=True)
     detail = models.CharField(max_length=500, null=True)
+    detail_ingredient = models.CharField(max_length=500, null=True)
 
     def __str__(self):
         return self.name
