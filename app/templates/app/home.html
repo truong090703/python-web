@@ -53,6 +53,9 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
     transform: scale(1.1);
   }
+  .card-img-top {
+    cursor: pointer;
+  }
 </style>
 <div class="container container-responsivegrid mt-4">
   <div class="row no-gutters">
@@ -83,7 +86,7 @@
   <div class="row no-gutters grooves d-flex">
     {% for product in products %} {% if forloop.counter <= 6 %}
     <div class="col-4" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)">
-      <div class="card">
+      <div class="card" data-id="{{ product.id }}">
         <img class="card-img-top" src="{{product.ImageURL}}" />
         <div class="card-body">
           <h5 class="card-title">{{product.name}}</h5>
@@ -120,13 +123,13 @@
             alt="..."
           />
           <div class="card-body">
-            <h4 class>Để từng khoảnh khắc trong cuộc sống tràn đầy ý nghĩa</h4>
+            <h5 class>Để từng khoảnh khắc trong cuộc sống tràn đầy ý nghĩa</h5>
             <p class="card-text">
               Some quick example text to build on the card title and make up the
               bulk of the card's content.
             </p>
             <a href="#" class="">
-              <h3 class="">Tìm hiểu các nhãn hàng của Coco</h3>
+              <h4 class="">Tìm hiểu các nhãn hàng của Coco</h4>
             </a>
           </div>
         </div>
@@ -139,16 +142,16 @@
             alt="..."
           />
           <div class="card-body">
-            <h4 class>
+            <h5 class>
               Vì Một Thế Giới Không Rác Thải, hãy hành động từng bước cùng chúng
               tôi!
-            </h4>
+            </h5>
             <p class="card-text">
               Chúng tôi góp phần giải quyết các vấn đề về bao bì thông qua việc
               đầu tư vào môi trường và quy trình đóng gói
             </p>
             <a href="#" class="">
-              <h3 class="">Sáng kiến phát triển bao bì bền vững</h3>
+              <h4 class="">Sáng kiến phát triển bao bì bền vững</h4>
             </a>
           </div>
         </div>
@@ -206,29 +209,29 @@
     class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
   >
     <!-- Left -->
-    <div class="me-5 d-none d-lg-block">
+    <div class="mx-5 d-none d-lg-block">
       <span>Get connected with us on social networks:</span>
     </div>
     <!-- Left -->
 
     <!-- Right -->
     <div>
-      <a href="" class="me-4 text-reset">
+      <a href="" class="mx-4 text-reset">
         <i class="fab fa-facebook-f"></i>
       </a>
-      <a href="" class="me-4 text-reset">
+      <a href="" class="mx-4 text-reset">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="" class="me-4 text-reset">
+      <a href="" class="mx-4 text-reset">
         <i class="fab fa-google"></i>
       </a>
-      <a href="" class="me-4 text-reset">
+      <a href="" class="mx-4 text-reset">
         <i class="fab fa-instagram"></i>
       </a>
-      <a href="" class="me-4 text-reset">
+      <a href="" class="mx-4 text-reset">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="" class="me-4 text-reset">
+      <a href="" class="mx-4 text-reset">
         <i class="fab fa-github"></i>
       </a>
     </div>
@@ -245,7 +248,7 @@
         <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
           <!-- Content -->
           <h6 class="text-uppercase fw-bold mb-4">
-            <i class="fas fa-gem me-3"></i>Company name
+            <i class="fas fa-gem mr-3"></i>Company name
           </h6>
           <p>
             Here you can use rows and columns to organize your footer content.
@@ -296,13 +299,13 @@
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
           <!-- Links -->
           <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-          <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
+          <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
           <p>
-            <i class="fas fa-envelope me-3"></i>
+            <i class="fas fa-envelope mr-3"></i>
             info@example.com
           </p>
-          <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
-          <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+          <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+          <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
         </div>
         <!-- Grid column -->
       </div>
@@ -318,5 +321,23 @@
   </div>
   <!-- Copyright -->
 </footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const productImages = document.querySelectorAll(".card-img-top");
+
+    productImages.forEach((image) => {
+      image.addEventListener("click", function () {
+        const productId = this.closest(".card").dataset.id;
+        if (productId) {
+          const productDetailUrl = `/product_detail/${productId}/`;
+          window.location.href = productDetailUrl;
+        } else {
+          console.error("Product ID not found");
+        }
+      });
+    });
+  });
+</script>
 
 {% endblock main-content %}

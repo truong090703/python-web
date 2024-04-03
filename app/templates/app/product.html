@@ -179,20 +179,16 @@
   document.addEventListener("DOMContentLoaded", function () {
     const productCards = document.querySelectorAll(".product-card");
 
-    // Xử lý sự kiện khi click vào sản phẩm
     productCards.forEach((card) => {
       card.addEventListener("click", function () {
-        // Lấy thông tin sản phẩm từ các thuộc tính data của sản phẩm
         const brand = this.dataset.brand;
         const name = this.dataset.name;
         const price = this.dataset.price;
         const image = this.dataset.image;
         const id = this.dataset.id;
 
-        // Tạo URL đến trang chi tiết sản phẩm
         const productDetailUrl = `/product_detail/${id}/`;
 
-        // Chuyển hướng đến trang chi tiết sản phẩm
         window.location.href = productDetailUrl;
       });
     });

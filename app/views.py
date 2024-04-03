@@ -93,48 +93,7 @@ def updateItem(request):
     if orderItem.quantity <= 0:
         orderItem.delete()
     return JsonResponse('added', safe=False)
-def updateItemDetail(request):
-    if request.method == 'POST' and request.user.is_authenticated:
-        productId = request.POST.get('productId')
-        action = request.POST.get('action')
 
-        if productId and action:
-            try:
-                product = Product.objects.get(id=productId)
-                order, created = Order.objects.get_or_create(customer=request.user.customer, complete=False)
-
-                orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
-
-                if action == 'additem':
-                    orderItem.quantity += 1
-                elif action == 'removeitem':
-                    orderItem.quantity -= 1
-
-                orderItem.save()
-
-                if orderItem.quantity <= 0:
-                    orderItem.delete()
-
-                items_in_cart = OrderItem.objects.filter(order=order)
-                cart_items = []
-                for item in items_in_cart:
-                    cart_items.append({
-                        'productId': item.product.id,
-                        'productName': item.product.name,
-                        'quantity': item.quantity
-                    })
-
-                response = {
-                    'cart_items': cart_items,
-                    'total_quantity': order.get_cart_total_quantity(),
-                }
-
-                return JsonResponse(response)
-
-            except Product.DoesNotExist:
-                return JsonResponse({'error': 'Product does not exist'}, status=400)
-
-    return JsonResponse({'error': 'Invalid request'}, status=400)
 def remove_from_cart(request, cart_product_id):
     if request.user.is_authenticated:
         customer = request.user
@@ -163,13 +122,14 @@ def product(request):
 def productDetail(request, product_id=None):
     if product_id:
         product = get_object_or_404(Product, id=product_id)
+        related_products = Product.objects.filter(brand=product.brand).exclude(id=product.id)
         cartItems = 0
         if request.user.is_authenticated:
             customer = request.user
             order, created = Order.objects.get_or_create(customer=customer, complete=False)
             cartItems = order.get_cart_items
 
-        context = {'product': product, 'cartItem': cartItems}
+        context = {'product': product, 'cartItem': cartItems, 'related_products': related_products,}
         return render(request, 'app/product_detail.html', context)
     else:
         query = request.GET.get('searched')
@@ -207,7 +167,6 @@ def profile(request):
             for file in files:
                 new_file = Files(file=file)
                 new_file.save()
-            # Lấy đường dẫn của ảnh mới tải lên và cập nhật lại biến avatar_url
             avatar_url = str(new_file.file.url) if new_file else None
         else:
             avatar_url = None
@@ -219,7 +178,7 @@ def profile(request):
             'last_name': last_name,
             'date_joined': date_joined, 
             'cartItem': cartItems,
-            'avatar_url': avatar_url  # Cập nhật lại biến avatar_url
+            'avatar_url': avatar_url
         }
         return render(request, 'app/profile.html', context)
     else:

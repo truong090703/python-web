@@ -1,14 +1,35 @@
 {% extends "app/base.html"%} {% load static %} {% block product-detail %}
 <style>
+  footer {
+    background-color: #f8f9fa;
+  }
   .img-detail {
     max-height: 340px;
     max-width: 340px;
   }
-  .price {
+  .prices {
     margin: 0;
   }
   .chg-quantity {
     margin: 0;
+  }
+  .cart-component {
+    font-size: 0.8rem;
+  }
+  .cart-child {
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  .price,
+  .update-cart {
+    font-size: 0.7rem;
+  }
+  span {
+    margin: 0;
+  }
+  .cart-component .card-img-top {
+    max-height: 170px;
+    object-fit: contain;
   }
 </style>
 <div class="container container-detail">
@@ -26,46 +47,21 @@
             <div class="card-body">
               <h5 class="card-title font-weight-bold pt-3">{{product.name}}</h5>
               <p class="card-text">{{product.detail}}</p>
+
               <p class="card-text font-weight-bold">Thành phần:</p>
               <p class="card-text">{{product.detail_ingredient}}</p>
             </div>
             <div
               class="card-body d-flex justify-content-between align-items-center"
             >
-              <p class="price font-weight-bold">
+              <p class="prices font-weight-bold">
                 ${{ product.price | floatformat:2 }}
               </p>
-              <div class="input-group" style="max-width: 20%">
-                <span class="input-group-btn">
-                  <button
-                    type="button"
-                    class="btn btn-outline-secondary chg-quantity"
-                    data-action="removeitem"
-                    data-product="{{ product.id }}"
-                  >
-                    -
-                  </button>
-                </span>
-                <input
-                  type="number"
-                  class="form-control quantity-input"
-                  value="1"
-                />
-                <span class="input-group-btn">
-                  <button
-                    type="button"
-                    class="btn btn-outline-secondary chg-quantity"
-                    data-action="additem"
-                    data-product="{{ product.id }}"
-                  >
-                    +
-                  </button>
-                </span>
-              </div>
+
               <a
                 data-product="{{product.id}}"
-                data-action="add-to-cart"
-                class="btn btn-outline-dark update-cart"
+                data-action="add"
+                class="btn btn-outline-dark add-to-cart"
                 style="float: right"
                 >Thêm vào giỏ</a
               >
@@ -74,40 +70,152 @@
         </div>
       </div>
     </div>
+    <div class="col-12">
+      <h3 class="title-other-products pt-3">Các sản phẩm khác cùng hãng</h3>
+    </div>
+    {% for related_product in related_products %}
+    <div class="col-2 product-card pt-2">
+      <div class="card product-card cart-component m-1">
+        <img class="card-img-top" src="{{ related_product.ImageURL }}" />
+        <div class="card-body">
+          <h5 class="card-title cart-child">
+            {{ related_product.name | truncatechars:18 }}
+          </h5>
+          <div class="align-items-center d-flex justify-content-between">
+            <span class="price"
+              >${{ related_product.price | floatformat:2 }}</span
+            >
+            <a
+              data-product="{{ related_product.id }}"
+              data-action="add"
+              class="btn btn-outline-dark update-cart"
+              >Thêm vào giỏ</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".update-cart").forEach(function (button) {
-      button.addEventListener("click", function () {
-        var productId = this.getAttribute("data-product");
-        var action = this.getAttribute("data-action");
+<footer class="text-lg-start bg-body-tertiary text-muted mt-5">
+  <!-- Section: Social media -->
+  <section
+    class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+  >
+    <!-- Left -->
+    <div class="mx-5 d-none d-lg-block">
+      <span>Get connected with us on social networks:</span>
+    </div>
+    <!-- Left -->
 
-        fetch("{% url 'update_item_detail' %}", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": "{{ csrf_token }}",
-          },
-          body: JSON.stringify({
-            productId: productId,
-            action: action,
-          }),
-        })
-          .then(function (response) {
-            return response.json();
-          })
-          .then(function (data) {
-            console.log(data.cart_items);
-            console.log(data.total_quantity);
-          })
-          .catch(function (error) {
-            console.error(error);
-          });
-      });
-    });
-  });
-</script>
+    <!-- Right -->
+    <div>
+      <a href="" class="mx-4 text-reset">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="" class="mx-4 text-reset">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="" class="mx-4 text-reset">
+        <i class="fab fa-google"></i>
+      </a>
+      <a href="" class="mx-4 text-reset">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="" class="mx-4 text-reset">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="" class="mx-4 text-reset">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <!-- Right -->
+  </section>
+  <!-- Section: Social media -->
+
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-md-start mt-5">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+          <!-- Content -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            <i class="fas fa-gem mr-3"></i>Company name
+          </h6>
+          <p>
+            Here you can use rows and columns to organize your footer content.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">Products</h6>
+          <p>
+            <a href="#!" class="text-reset">Angular</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">React</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Vue</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Laravel</a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">Useful links</h6>
+          <p>
+            <a href="#!" class="text-reset">Pricing</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Settings</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Orders</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Help</a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+          <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
+          <p>
+            <i class="fas fa-envelope mr-3"></i>
+            info@example.com
+          </p>
+          <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+          <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+
+  <!-- Copyright -->
+  <div class="text-center p-4">
+    © 2024 Copyright:
+    <a class="text-reset fw-bold" href="https://mdbootstrap.com/">Coco.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
 
 {% endblock product-detail %}
