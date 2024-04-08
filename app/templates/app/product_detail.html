@@ -31,6 +31,9 @@
     max-height: 170px;
     object-fit: contain;
   }
+  .add-to-cart {
+    font-size: 1rem;
+  }
 </style>
 <div class="container container-detail">
   <div class="row no-gutters">
@@ -59,10 +62,9 @@
               </p>
 
               <a
-                data-product="{{product.id}}"
+                data-product="{{ product.id }}"
                 data-action="add"
-                class="btn btn-outline-dark add-to-cart"
-                style="float: right"
+                class="btn btn-outline-dark update-cart add-to-cart"
                 >Thêm vào giỏ</a
               >
             </div>
