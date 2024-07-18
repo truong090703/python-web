@@ -147,39 +147,3 @@ def productDetail(request, product_id=None):
         context = {'products': products, 'cartItem': cartItems}
         return render(request, 'app/product_detail.html', context)
 
-def profile(request):
-    cartItems = 0
-    date_joined = None
-
-    if request.user.is_authenticated:
-        user = request.user
-        username = user.username
-        email = user.email
-        first_name = user.first_name
-        last_name = user.last_name
-        order = Order.objects.get_or_create(customer=user, complete=False)[0] 
-        cartItems = order.get_cart_items 
-        
-        date_joined = user.date_joined
-
-        if request.method == 'POST':
-            files = request.FILES.getlist('files')
-            for file in files:
-                new_file = Files(file=file)
-                new_file.save()
-            avatar_url = str(new_file.file.url) if new_file else None
-        else:
-            avatar_url = None
-
-        context = {
-            'username': username,
-            'email': email,
-            'first_name': first_name,
-            'last_name': last_name,
-            'date_joined': date_joined, 
-            'cartItem': cartItems,
-            'avatar_url': avatar_url
-        }
-        return render(request, 'app/profile.html', context)
-    else:
-        return redirect('login')

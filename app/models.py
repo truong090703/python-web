@@ -74,6 +74,3 @@ class Shipping(models.Model):
     
     def __str__(self):
         return self.address
-
-class Files(models.Model):
-    file = models.FileField(upload_to='file')   
